@@ -1,15 +1,94 @@
-# Godot 4+ specific ignores
-.godot/
+# Unity-generated files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
 
-# Godot-specific ignores
-.import/
-export.cfg
-export_presets.cfg
+# User-specific files
+UserSettings/
+*.swp
+*.swo
+*.tmp
+*.bak
+*.log
+*.sln
+*.csproj
+*.pidb
+*.suo
+*.user
+*.userprefs
+*.unityproj
+*.booproj
+*.orig
 
-# Imported translations (automatically generated from CSV files)
-*.translation
+# Visual Studio / Rider
+.vscode/
+.idea/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.asset
 
-# Mono-specific ignores
-.mono/
-data_*/
-mono_crash.*.json
+# Unity metadata files
+/[Aa]ssets/[Ss]treaming[Aa]ssets/**/*.meta
+/[Aa]ssets/**/*.meta
+
+# Auto-generated plugin files
+/[Aa]ssets/Plugins/Editor/*.dll
+/[Aa]ssets/Plugins/Editor/*.pdb
+/[Aa]ssets/Plugins/Editor/*.mdb
+
+# Crash reports
+/CrashReport/
+*/CrashReports/
+*/DebugLog.txt
+
+# Builds and generated data
+/[Bb]uilds/
+DerivedDataCache/
+[Bb]uilds/
+/[Bb]uild/
+/[Bb]in/
+Library/
+obj/
+Temp/
+Logs/
+MemoryCaptures/
+
+# Package manager files
+Packages/*
+!Packages/manifest.json
+!Packages/packages-lock.json
+
+# Addressable Asset System
+/[Aa]ssets/[Aa]ddressable[Aa]ssetsData/*
+!/[Aa]ssets/[Aa]ddressable[Aa]ssetsData/*.asset
+!/[Aa]ssets/[Aa]ddressable[Aa]ssetsData/*.json
+
+# Unity-generated files
+/Assets/Plugins/**/*.dll
+/Assets/Plugins/**/*.meta
+/Assets/Plugins/**/*.pdb
+/Assets/Plugins/**/*.mdb
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Godot & Unity specific
+.DS_Store
+Thumbs.db
