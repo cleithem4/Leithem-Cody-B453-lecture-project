@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dou7r3soh8ynh"]
+
+[ext_resource type="Script" path="res://scripts/flag.gd" id="1_nqqri"]
+[ext_resource type="Texture2D" uid="uid://y5rasy5pc1eg" path="res://assets/flag-color/flaggreen.png" id="1_p2sqv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f3vvs"]
+size = Vector2(36, 38)
+
+[node name="Flag" type="StaticBody2D" groups=["flag"]]
+script = ExtResource("1_nqqri")
+
+[node name="flag-color" type="Sprite2D" parent="."]
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("1_p2sqv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 2)
+shape = SubResource("RectangleShape2D_f3vvs")
+
+[node name="pos" type="Marker2D" parent="."]
+position = Vector2(-16, 20)

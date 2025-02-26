@@ -23,6 +23,8 @@ func _physics_process(delta: float) -> void:
 		for UNIT in repulsionForce_array:
 			repulsion_force += (global_position - UNIT.global_position).normalized() * 2.0
 		global_position += repulsion_force
+	global_position.x = clamp(global_position.x, 0, Global.screen_size.x)
+	global_position.y = clamp(global_position.y, 0, Global.screen_size.y)
 
 func update():
 	self.add_to_group(team)

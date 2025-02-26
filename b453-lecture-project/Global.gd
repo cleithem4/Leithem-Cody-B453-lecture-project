@@ -1,4 +1,4 @@
 extends Node
 
 
-var teams = ["red","green"]
+var screen_size = Vector2(1280,640)
