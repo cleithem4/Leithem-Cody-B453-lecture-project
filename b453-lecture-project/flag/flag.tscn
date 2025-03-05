@@ -7,6 +7,8 @@
 size = Vector2(36, 38)
 
 [node name="Flag" type="StaticBody2D" groups=["flag"]]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_nqqri")
 
 [node name="flag-color" type="Sprite2D" parent="."]

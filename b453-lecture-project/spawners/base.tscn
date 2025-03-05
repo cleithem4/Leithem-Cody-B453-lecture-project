@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_pgbyb"]
 radius = 36.1248
 
-[node name="base" type="StaticBody2D" groups=["unit"]]
+[node name="base" type="StaticBody2D" groups=["base"]]
 script = ExtResource("1_g4fwg")
 
 [node name="body" type="Sprite2D" parent="."]

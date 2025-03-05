@@ -8,6 +8,7 @@
 radius = 19.0
 
 [node name="billion" type="CharacterBody2D" node_paths=PackedStringArray("repulsionArea") groups=["unit"]]
+z_index = -1
 script = ExtResource("1_5t04h")
 repulsionArea = NodePath("repulsionArea")
 

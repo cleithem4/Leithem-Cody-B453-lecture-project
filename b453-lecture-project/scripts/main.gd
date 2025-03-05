@@ -30,8 +30,8 @@ func _input(event):
 		if event.pressed:
 			# Check if the mouse is over any flag (for either team)
 			var flag_found = false
-			for team in bases.keys():
-				var base = bases[team]
+			for team in Global.bases.keys():
+				var base = Global.bases[team]
 				for flag in base.get_children():
 					if flag.is_in_group("flag"):
 						# Use distance check
@@ -54,7 +54,7 @@ func _input(event):
 			if dragged_flag:
 				# Set the flag's new position. Convert the global position to the base's local space.
 				var team = dragged_flag.team
-				var base = bases.get(team)
+				var base = Global.bases.get(team)
 				if base:
 					# Convert global drag position to base local and subtract offset.
 					var local_target = base.to_local(event.global_position) - offset
@@ -76,17 +76,17 @@ func spawn_base():
 	call_deferred("add_child", green_base)
 	green_base.team = "green"
 	green_base.global_position = Vector2(200, 200)
-	bases["green"] = green_base
+	Global.bases["green"] = green_base
 
 	# Spawn and store the red base
 	var red_base = Base.instantiate()
 	call_deferred("add_child", red_base)
 	red_base.team = "red"
 	red_base.global_position = Vector2(1000, 200)
-	bases["red"] = red_base
+	Global.bases["red"] = red_base
 
 func handle_flag(team: String, click_position: Vector2) -> void:
-	var base = bases.get(team)
+	var base = Global.bases.get(team)
 	if base == null:
 		print("Base for team ", team, " not found!")
 		return
