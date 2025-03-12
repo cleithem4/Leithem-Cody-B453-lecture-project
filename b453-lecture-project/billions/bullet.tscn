@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://bwl24esv730dg"]
+
+[ext_resource type="Texture2D" uid="uid://brlhhnyvnb8" path="res://assets/circle_particle copy.png" id="1_2c62c"]
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_uc352"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_20eng"]
+radius = 5.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v6cxn"]
+radius = 6.0
+
+[node name="bullet" type="RigidBody2D" groups=["bullet"]]
+collision_layer = 4
+gravity_scale = 0.0
+script = ExtResource("1_uc352")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_2c62c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_20eng")
+
+[node name="despawn" type="Timer" parent="."]
+wait_time = 4.0
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_v6cxn")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="despawn" to="." method="_on_despawn_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://cb7r57bidbpgk"]
+[gd_scene load_steps=6 format=3 uid="uid://cb7r57bidbpgk"]
 
 [ext_resource type="Script" path="res://scripts/billion.gd" id="1_5t04h"]
-[ext_resource type="Texture2D" uid="uid://cv1xm2sh85r2s" path="res://assets/kenney_top-down-shooter/PNG/Tiles/tile_479.png" id="1_q5dnj"]
 [ext_resource type="Texture2D" uid="uid://mw1axfn53fvf" path="res://assets/kenney_top-down-shooter/PNG/weapon_machine.png" id="2_arubf"]
+[ext_resource type="Texture2D" uid="uid://brlhhnyvnb8" path="res://assets/circle_particle copy.png" id="2_ioayv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2k7eb"]
 radius = 19.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ypf73"]
+radius = 189.042
 
 [node name="billion" type="CharacterBody2D" node_paths=PackedStringArray("repulsionArea") groups=["unit"]]
 z_index = -1
@@ -14,23 +17,42 @@ repulsionArea = NodePath("repulsionArea")
 
 [node name="Body" type="Node2D" parent="."]
 
+[node name="damage_indicator" type="Sprite2D" parent="Body"]
+texture = ExtResource("2_ioayv")
+
 [node name="base" type="Sprite2D" parent="Body"]
-modulate = Color(0.635294, 0.494118, 0.0470588, 1)
-texture = ExtResource("1_q5dnj")
+modulate = Color(0.654902, 0, 0, 1)
+texture = ExtResource("2_ioayv")
 
 [node name="turret" type="Sprite2D" parent="Body"]
 position = Vector2(11, 0)
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("2_arubf")
 
+[node name="muzzle" type="Marker2D" parent="Body/turret"]
+position = Vector2(13.3333, 0)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 shape = SubResource("CircleShape2D_2k7eb")
 
 [node name="repulsionArea" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="repulsionArea"]
 shape = SubResource("CircleShape2D_2k7eb")
 
+[node name="RangeArea" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
+shape = SubResource("CircleShape2D_ypf73")
+
+[node name="AttackCooldown" type="Timer" parent="."]
+wait_time = 0.5
+
 [connection signal="body_entered" from="repulsionArea" to="." method="_on_repulsion_area_body_entered"]
 [connection signal="body_exited" from="repulsionArea" to="." method="_on_repulsion_area_body_exited"]
+[connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
+[connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]

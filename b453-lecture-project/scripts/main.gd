@@ -84,6 +84,20 @@ func spawn_base():
 	red_base.team = "red"
 	red_base.global_position = Vector2(1000, 200)
 	Global.bases["red"] = red_base
+	
+	# Spawn and store the yellow base
+	var yellow_base = Base.instantiate()
+	call_deferred("add_child", yellow_base)
+	yellow_base.team = "yellow"
+	yellow_base.global_position = Vector2(1000, 400)
+	Global.bases["yellow"] = yellow_base
+	
+	# Spawn and store the blue base
+	var blue_base = Base.instantiate()
+	call_deferred("add_child", blue_base)
+	blue_base.team = "blue"
+	blue_base.global_position = Vector2(200, 400)
+	Global.bases["blue"] = blue_base
 
 func handle_flag(team: String, click_position: Vector2) -> void:
 	var base = Global.bases.get(team)
