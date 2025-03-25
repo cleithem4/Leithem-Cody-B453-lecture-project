@@ -7,9 +7,10 @@ extends CharacterBody2D
 @export var turret_rotation_speed: float = 10.0
 
 @onready var base = $Body/base
-@onready var turret = $Body/turret
-@onready var muzzle = $Body/turret/muzzle
+@onready var turret = $Body/turret_pivot/turret
+@onready var muzzle = $Body/turret_pivot/turret/muzzle
 @onready var attack_timer = $AttackCooldown
+@onready var turret_pivot = $Body/turret_pivot
 @onready var Bullet = load("res://billions/bullet.tscn")
 
 var inRange = []
@@ -176,9 +177,9 @@ func aim_to_attack(delta: float) -> void:
 		var target_angle = direction.angle()
 		
 		# Smoothly rotate turret towards target
-		var current_angle = turret.rotation
+		var current_angle = turret_pivot.rotation
 		var new_angle = lerp_angle(current_angle, target_angle, turret_rotation_speed * delta)
-		turret.rotation = new_angle
+		turret_pivot.rotation = new_angle
 
 func attack() -> void:
 	if !current_target:
