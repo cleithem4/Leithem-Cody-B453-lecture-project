@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cpaq00x1cwb65"]
+[gd_scene load_steps=7 format=3 uid="uid://cpaq00x1cwb65"]
 
 [ext_resource type="Script" path="res://scripts/spawner.gd" id="1_g4fwg"]
+[ext_resource type="Texture2D" uid="uid://brlhhnyvnb8" path="res://assets/circle_particle copy.png" id="2_aoppm"]
 [ext_resource type="Texture2D" uid="uid://ebwwspwku0ed" path="res://assets/base-color/ufoGreen.png" id="2_w515a"]
 [ext_resource type="Texture2D" uid="uid://bn8yikcbcln5n" path="res://assets/kenney_top-down-tanks-redux/PNG/Default size/specialBarrel6_outline.png" id="3_vogab"]
 
@@ -12,6 +13,18 @@ radius = 540.3
 
 [node name="base" type="StaticBody2D" groups=["base"]]
 script = ExtResource("1_g4fwg")
+
+[node name="health_progress_bar" type="TextureProgressBar" parent="."]
+offset_left = -42.0
+offset_top = -41.0
+offset_right = 25.0
+offset_bottom = 41.0
+scale = Vector2(2.6, 2.6)
+value = 100.0
+rounded = true
+fill_mode = 5
+texture_progress = ExtResource("2_aoppm")
+tint_progress = Color(0, 1, 0, 1)
 
 [node name="body" type="Sprite2D" parent="."]
 scale = Vector2(0.8, 0.8)
@@ -31,6 +44,7 @@ rotation = 1.5708
 scale = Vector2(1.25, 2.193)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_pgbyb")
 metadata/_edit_lock_ = true
 
@@ -41,6 +55,7 @@ wait_time = 5.0
 position = Vector2(47, 2)
 
 [node name="RangeArea" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
 shape = SubResource("CircleShape2D_41ypx")

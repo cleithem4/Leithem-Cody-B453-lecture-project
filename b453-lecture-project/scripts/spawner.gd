@@ -11,16 +11,20 @@ extends StaticBody2D
 @export var turret_rotation_speed: float = 1.0
 @export var team = "none"
 @export var max_aim_angle_deg: float = 10.0  # Degrees within which turret must aim to fire
+@export var health = 15
+
 
 @onready var turret = $barrel
 @onready var muzzle = $barrel/muzzle
 @onready var attack_timer = $AttackCooldown
 @onready var turret_pivot = $Body/turret_pivot
+@onready var health_progress_bar = $health_progress_bar
 
 var inRange = []
 var isInRange = false
 var able_to_attack = true
 var current_target = null
+var MAX_HEALTH = 15
 
 var team_textures = {
 	"red": preload("res://assets/base-color/ufoRed.png"),
@@ -54,6 +58,17 @@ func update():
 	else:
 		print("Error: Body is null")
 		
+func damage(dmg):
+	health -= dmg
+	var progress_value = float(health) / float(MAX_HEALTH) * 100.0
+	animate_progress_bar(progress_value,0.2)
+	if health < 1:
+		queue_free()
+
+func animate_progress_bar(target_value: float, duration: float):
+	var tween = get_tree().create_tween()
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(health_progress_bar, "value", target_value,duration)
 
 func spawn_billion():
 	var billion = Billion.instantiate()

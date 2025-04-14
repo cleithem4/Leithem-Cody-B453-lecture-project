@@ -32,6 +32,8 @@ func _input(event):
 			var flag_found = false
 			for team in Global.bases.keys():
 				var base = Global.bases[team]
+				if !base:
+					return
 				for flag in base.get_children():
 					if flag.is_in_group("flag"):
 						# Use distance check

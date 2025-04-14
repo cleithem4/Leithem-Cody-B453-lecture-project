@@ -10,10 +10,11 @@ radius = 19.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_ypf73"]
 radius = 189.042
 
-[node name="billion" type="CharacterBody2D" node_paths=PackedStringArray("repulsionArea") groups=["unit"]]
+[node name="billion" type="CharacterBody2D" node_paths=PackedStringArray("repulsionArea", "range_area") groups=["unit"]]
 z_index = -1
 script = ExtResource("1_5t04h")
 repulsionArea = NodePath("repulsionArea")
+range_area = NodePath("RangeArea")
 
 [node name="Body" type="Node2D" parent="."]
 

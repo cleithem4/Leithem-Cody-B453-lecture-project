@@ -61,8 +61,7 @@ func damage(dmg):
 		queue_free()
 	var DI_scale = Vector2(health/5.0,health/5.0)
 	base.scale = DI_scale
-	print(health)
-	print(DI_scale)
+
 
 func _physics_process(delta: float) -> void:
 	var target_flag = get_closest_flag()
@@ -210,12 +209,12 @@ func attack() -> void:
 	attack_timer.start()
 
 func _on_range_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("unit") and !body.is_in_group(team):
+	if (body.is_in_group("unit") or body.is_in_group("base")) and !body.is_in_group(team):
 		inRange.append(body)
 		update_current_target()
 
 func _on_range_area_body_exited(body: Node2D) -> void:
-	if body.is_in_group("unit") and !body.is_in_group(team):
+	if (body.is_in_group("unit") or body.is_in_group("base")) and !body.is_in_group(team):
 		inRange.erase(body)
 		update_current_target()
 

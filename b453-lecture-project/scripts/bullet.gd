@@ -30,7 +30,7 @@ func _on_despawn_timeout() -> void:
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.is_in_group("unit") and !body.is_in_group(team):
+	if !body.is_in_group(team):
 		if body.has_method("damage"):
 			body.damage(hit_dmg)
 			queue_free()
