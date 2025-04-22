@@ -35,6 +35,20 @@ texture = ExtResource("2_arubf")
 [node name="muzzle" type="Marker2D" parent="Body/turret_pivot/turret"]
 position = Vector2(13.3333, 0)
 
+[node name="XP" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_ioayv")
+
+[node name="level" type="Label" parent="."]
+offset_left = -20.0
+offset_top = -12.0
+offset_right = 20.0
+offset_bottom = 11.0
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 shape = SubResource("CircleShape2D_2k7eb")

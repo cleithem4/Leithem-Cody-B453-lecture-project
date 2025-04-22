@@ -13,12 +13,18 @@ extends StaticBody2D
 @export var max_aim_angle_deg: float = 10.0  # Degrees within which turret must aim to fire
 @export var health = 15
 
+var experience = 0
+var xp_threshold = 10
+var level = 1
+
+@onready var level_label = $XP/level
+@onready var xp_progress_bar = $xp_progress_bar
+
 
 @onready var turret = $barrel
 @onready var muzzle = $barrel/muzzle
 @onready var attack_timer = $AttackCooldown
 @onready var turret_pivot = $Body/turret_pivot
-@onready var health_progress_bar = $health_progress_bar
 
 var inRange = []
 var isInRange = false
@@ -58,23 +64,29 @@ func update():
 	else:
 		print("Error: Body is null")
 		
-func damage(dmg):
+func damage(attack : Attack):
+	var dmg = attack.hit_dmg
 	health -= dmg
-	var progress_value = float(health) / float(MAX_HEALTH) * 100.0
-	animate_progress_bar(progress_value,0.2)
 	if health < 1:
 		queue_free()
 
 func animate_progress_bar(target_value: float, duration: float):
 	var tween = get_tree().create_tween()
 	tween.set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(health_progress_bar, "value", target_value,duration)
+	tween.tween_property(xp_progress_bar, "value", target_value,duration)
 
 func spawn_billion():
 	var billion = Billion.instantiate()
 	get_tree().root.call_deferred("add_child", billion)
 	billion.team = team
 	billion.global_position = unit_spawn.global_position
+	billion.Base = self
+	
+	# Assign rank to new billion
+	billion.level = level
+	billion.health = level * 1.5
+	billion.hit_dmg = level * 1.5
+
 
 func _on_spawn_timer_timeout() -> void:
 	spawn_billion()
@@ -154,3 +166,17 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 
 func _on_attack_cooldown_timeout() -> void:
 	able_to_attack = true
+	
+
+func _add_experience(xp):
+	experience += xp
+	while experience >= xp_threshold:
+		experience -= xp_threshold
+		level += 1
+		xp_threshold *= 2 
+	update_experience_ui()
+
+func update_experience_ui():
+	level_label.text = str(level)
+	var progress_value = float(experience) / float(xp_threshold) * 100.0
+	animate_progress_bar(progress_value,0.2)

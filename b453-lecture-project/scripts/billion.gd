@@ -12,28 +12,32 @@ extends CharacterBody2D
 @onready var attack_timer = $AttackCooldown
 @onready var turret_pivot = $Body/turret_pivot
 @onready var Bullet = load("res://billions/bullet.tscn")
+@onready var level_label = $level
 
 var inRange = []
 var isInRange = false
 var able_to_attack = true
 @export var health = 5
+@export var hit_dmg = 1
 
 # Movement parameters
 @export var max_speed: float = 100.0
 @export var acceleration: float = 200.0
-@export var deceleration: float = 150.0
+var deceleration: float = 150.0
 @export var rotation_speed: float = 5.0
 
 # Flag approach parameters
-@export var approach_distance: float = 50.0
-@export var stop_distance: float = 5.0
+var approach_distance: float = 50.0
+var stop_distance: float = 5.0
 
 # Collision parameters
-@export var mass: float = 1.0
-@export var elasticity: float = 0.5
+var mass: float = 1.0
+var elasticity: float = 0.5
 @export var repulsion_strength: float = 20.0
 
 var team: String = "none"
+var level = 1
+var Base : StaticBody2D
 var nearby_units: Array = []
 var current_target = null
 
@@ -54,10 +58,14 @@ func _ready() -> void:
 		attack_timer.one_shot = true
 		attack_timer.connect("timeout", Callable(self, "_on_attack_cooldown_timeout"))
 		add_child(attack_timer)
+	
 
-func damage(dmg):
+func damage(attack : Attack):
+	var dmg = attack.hit_dmg
 	health -= dmg
 	if health < 1:
+		if is_instance_valid(attack.attacker_base):
+			attack.attacker_base._add_experience(5)
 		queue_free()
 	var DI_scale = Vector2(health/5.0,health/5.0)
 	base.scale = DI_scale
@@ -122,6 +130,7 @@ func handle_collision(collision: KinematicCollision2D) -> void:
 func update_visuals() -> void:
 	add_to_group(team)
 	base.modulate = team_textures[team]
+	level_label.text = str(level)
 
 func _on_repulsion_area_body_entered(body: Node2D) -> void:
 	if body != self and body.is_in_group("unit"):
@@ -190,6 +199,8 @@ func attack() -> void:
 	# Set bullet properties
 	bullet.team = team
 	bullet.global_position = muzzle.global_position
+	bullet.hit_dmg = hit_dmg
+	bullet.base = Base
 	
 	# Calculate direction to target
 	var direction = (current_target.global_position - global_position).normalized()

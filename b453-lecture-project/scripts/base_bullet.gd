@@ -3,6 +3,7 @@ extends RigidBody2D
 var team = "none"
 
 var hit_dmg = 5
+var base : StaticBody2D
 
 var team_textures = {
 	"red": Color("a70000"),
@@ -32,7 +33,10 @@ func _on_despawn_timeout() -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("unit") and !body.is_in_group(team):
 		if body.has_method("damage"):
-			body.damage(hit_dmg)
+			var attack = Attack.new()
+			attack.attacker_base = base
+			attack.hit_dmg = hit_dmg
+			body.damage(attack)
 			queue_free()
 	elif body.is_in_group("base"):
 		queue_free()
