@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://ytqn42ckc6i3"]
+
+[ext_resource type="Texture2D" uid="uid://c5hus5uhnvajh" path="res://assets/kenney_top-down-tanks-redux/PNG/Default size/crateWood.png" id="1_llxsl"]
+[ext_resource type="Script" path="res://scripts/power_up.gd" id="1_pkg7b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t5idf"]
+size = Vector2(42, 42)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_voycg"]
+radius = 35.0
+
+[node name="powerUp" type="RigidBody2D"]
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_pkg7b")
+
+[node name="CrateWood" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_llxsl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_t5idf")
+
+[node name="inArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="inArea"]
+shape = SubResource("CircleShape2D_voycg")
+
+[connection signal="body_entered" from="inArea" to="." method="_on_in_area_body_entered"]
+[connection signal="body_exited" from="inArea" to="." method="_on_in_area_body_exited"]

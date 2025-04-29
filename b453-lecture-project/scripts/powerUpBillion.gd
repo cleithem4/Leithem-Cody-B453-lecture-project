@@ -9,6 +9,10 @@ extends CharacterBody2D
 @onready var base = $Body/base
 @onready var turret = $Body/turret_pivot/turret
 @onready var muzzle = $Body/turret_pivot/turret/muzzle
+@onready var turret2 = $Body/turret_pivot/turret2
+@onready var muzzle2 = $Body/turret_pivot/turret2/muzzle
+@onready var turret3 = $Body/turret_pivot/turret3
+@onready var muzzle3 = $Body/turret_pivot/turret3/muzzle
 
 @onready var attack_timer = $AttackCooldown
 @onready var turret_pivot = $Body/turret_pivot
@@ -18,7 +22,7 @@ extends CharacterBody2D
 var inRange = []
 var isInRange = false
 var able_to_attack = true
-@export var health = 5
+@export var health = 10
 @export var hit_dmg = 1
 
 # Movement parameters
@@ -193,30 +197,29 @@ func aim_to_attack(delta: float) -> void:
 func attack() -> void:
 	if !current_target:
 		return
-	
-	# Create bullet
-	var bullet = Bullet.instantiate()
-	
-	# Set bullet properties
-	bullet.team = team
-	bullet.global_position = muzzle.global_position
-	bullet.hit_dmg = hit_dmg
-	bullet.base = Base
-	
-	# Calculate direction to target
+
 	var direction = (current_target.global_position - global_position).normalized()
-	
-	# Set bullet rotation
-	bullet.rotation = direction.angle()
-	
-	# Add bullet to scene first so it can interact with physics
-	get_parent().add_child(bullet)
-	
-	# Since it's a RigidBody2D, apply impulse/force to it
-	bullet.apply_central_impulse(direction * bullet_speed)
-  
-	
-	# Start cooldown
+	var muzzle_list = [muzzle, muzzle2, muzzle3]
+
+	for i in range(muzzle_list.size()):
+		var muzzle_node = muzzle_list[i]
+		var bullet = Bullet.instantiate()
+		bullet.team = team
+		bullet.global_position = muzzle_node.global_position
+		bullet.hit_dmg = hit_dmg
+		bullet.base = Base
+		
+		var spread_direction = direction
+		if i != 0:  # Side muzzles only (muzzle2 and muzzle3)
+			var spread = deg_to_rad(randf_range(-10, 10))  # Random between -10 and 10 degrees
+			spread_direction = direction.rotated(spread)
+
+		bullet.rotation = spread_direction.angle()
+
+		get_parent().add_child(bullet)
+		bullet.apply_central_impulse(spread_direction * bullet_speed)
+
+	# Start attack cooldown after firing all bullets
 	able_to_attack = false
 	attack_timer.start()
 

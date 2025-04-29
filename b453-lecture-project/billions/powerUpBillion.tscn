@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cb7r57bidbpgk"]
+[gd_scene load_steps=6 format=3 uid="uid://c5kv5knotuu66"]
 
-[ext_resource type="Script" path="res://scripts/billion.gd" id="1_5t04h"]
-[ext_resource type="Texture2D" uid="uid://mw1axfn53fvf" path="res://assets/kenney_top-down-shooter/PNG/weapon_machine.png" id="2_arubf"]
-[ext_resource type="Texture2D" uid="uid://brlhhnyvnb8" path="res://assets/circle_particle copy.png" id="2_ioayv"]
+[ext_resource type="Script" path="res://scripts/powerUpBillion.gd" id="1_wyoww"]
+[ext_resource type="Texture2D" uid="uid://brlhhnyvnb8" path="res://assets/circle_particle copy.png" id="2_fjun8"]
+[ext_resource type="Texture2D" uid="uid://mw1axfn53fvf" path="res://assets/kenney_top-down-shooter/PNG/weapon_machine.png" id="3_qmmds"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2k7eb"]
 radius = 19.0
@@ -10,36 +10,51 @@ radius = 19.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_ypf73"]
 radius = 189.042
 
-[node name="billion" type="CharacterBody2D" node_paths=PackedStringArray("repulsionArea", "range_area") groups=["unit"]]
+[node name="powerUpBillion" type="CharacterBody2D" groups=["unit"]]
 z_index = -1
-script = ExtResource("1_5t04h")
-repulsionArea = NodePath("repulsionArea")
-range_area = NodePath("RangeArea")
-bullet_speed = 200.0
+script = ExtResource("1_wyoww")
 
 [node name="Body" type="Node2D" parent="."]
 
 [node name="damage_indicator" type="Sprite2D" parent="Body"]
-texture = ExtResource("2_ioayv")
+texture = ExtResource("2_fjun8")
 
 [node name="base" type="Sprite2D" parent="Body"]
 modulate = Color(0.654902, 0, 0, 1)
-texture = ExtResource("2_ioayv")
+texture = ExtResource("2_fjun8")
 
 [node name="turret_pivot" type="Marker2D" parent="Body"]
 
 [node name="turret" type="Sprite2D" parent="Body/turret_pivot"]
 position = Vector2(8, 0)
 scale = Vector2(0.75, 0.75)
-texture = ExtResource("2_arubf")
+texture = ExtResource("3_qmmds")
 
 [node name="muzzle" type="Marker2D" parent="Body/turret_pivot/turret"]
+position = Vector2(13.3333, 0)
+
+[node name="turret2" type="Sprite2D" parent="Body/turret_pivot"]
+position = Vector2(8, -4)
+rotation = -0.523599
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_qmmds")
+
+[node name="muzzle" type="Marker2D" parent="Body/turret_pivot/turret2"]
+position = Vector2(13.3333, 0)
+
+[node name="turret3" type="Sprite2D" parent="Body/turret_pivot"]
+position = Vector2(7, 4)
+rotation = 0.523599
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_qmmds")
+
+[node name="muzzle" type="Marker2D" parent="Body/turret_pivot/turret3"]
 position = Vector2(13.3333, 0)
 
 [node name="XP" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 1)
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_ioayv")
+texture = ExtResource("2_fjun8")
 
 [node name="level" type="Label" parent="."]
 offset_left = -20.0

@@ -1,6 +1,7 @@
 extends StaticBody2D
 
 @onready var Billion = load("res://billions/billion.tscn")
+@onready var PowerUpBillion = load("res://billions/powerUpBillion.tscn")
 @onready var Bullet = load("res://spawners/baseBullet.tscn")
 @onready var unit_spawn = $unit_spawn
 @onready var body := $body
@@ -16,6 +17,8 @@ extends StaticBody2D
 var experience = 0
 var xp_threshold = 10
 var level = 1
+var powerup_enabled = false
+var powerup_spawn_left = 0
 
 @onready var level_label = $XP/level
 @onready var xp_progress_bar = $xp_progress_bar
@@ -42,6 +45,9 @@ var team_textures = {
 func _ready() -> void:
 	update()
 	spawn_timer.start()
+	print(team)
+	if(team == "none"):
+		queue_free();
 	
 	
 func _process(delta: float) -> void:
@@ -76,7 +82,14 @@ func animate_progress_bar(target_value: float, duration: float):
 	tween.tween_property(xp_progress_bar, "value", target_value,duration)
 
 func spawn_billion():
-	var billion = Billion.instantiate()
+	var billion
+	if powerup_enabled:
+		billion = PowerUpBillion.instantiate()
+		powerup_spawn_left -= 1
+		if powerup_spawn_left <= 0:
+			powerup_enabled = false
+	else:
+		billion = Billion.instantiate()
 	get_tree().root.call_deferred("add_child", billion)
 	billion.team = team
 	billion.global_position = unit_spawn.global_position
@@ -180,3 +193,7 @@ func update_experience_ui():
 	level_label.text = str(level)
 	var progress_value = float(experience) / float(xp_threshold) * 100.0
 	animate_progress_bar(progress_value,0.2)
+	
+func powerup():
+	powerup_enabled = true
+	powerup_spawn_left += 2

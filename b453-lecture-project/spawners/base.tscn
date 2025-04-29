@@ -13,6 +13,7 @@ radius = 540.3
 
 [node name="base" type="StaticBody2D" groups=["base"]]
 script = ExtResource("1_g4fwg")
+bullet_speed = 200.0
 
 [node name="xp_progress_bar" type="TextureProgressBar" parent="."]
 offset_left = -42.0

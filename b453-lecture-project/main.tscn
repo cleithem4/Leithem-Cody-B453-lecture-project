@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://b5404cw3bqbj6"]
+[gd_scene load_steps=6 format=3 uid="uid://b5404cw3bqbj6"]
 
 [ext_resource type="Texture2D" uid="uid://bbstmvwj54y5l" path="res://assets/kenney_top-down-shooter/Tilesheet/tilesheet_complete.png" id="1_1k4w1"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_d8jtp"]
+[ext_resource type="PackedScene" uid="uid://ytqn42ckc6i3" path="res://cratePowerUp/power_up.tscn" id="3_63w13"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_c4gdk"]
+resource_name = "tilemap"
 texture = ExtResource("1_1k4w1")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
@@ -311,7 +313,9 @@ texture_region_size = Vector2i(64, 64)
 5:11/0 = 0
 6:11/0 = 0
 7:11/0 = 0
+8:11/next_alternative_id = 2
 8:11/0 = 0
+8:11/1 = 1
 9:11/0 = 0
 10:11/0 = 0
 11:11/0 = 0
@@ -337,7 +341,12 @@ texture_region_size = Vector2i(64, 64)
 4:12/0 = 0
 5:12/0 = 0
 6:12/0 = 0
+7:12/next_alternative_id = 5
 7:12/0 = 0
+7:12/1 = 1
+7:12/2 = 2
+7:12/3 = 3
+7:12/4 = 4
 8:12/0 = 0
 9:12/0 = 0
 10:12/0 = 0
@@ -562,3 +571,15 @@ layer_0/tile_data = PackedInt32Array(-65534, 524290, 805306368, 65536, 524290, 8
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(645, 321)
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(1208, 570)
+
+[node name="powerUp" parent="." instance=ExtResource("3_63w13")]
+position = Vector2(484, 323)
+
+[node name="powerupSpawn" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="powerupSpawn" to="." method="_on_powerup_spawn_timeout"]
